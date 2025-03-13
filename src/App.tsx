@@ -9,15 +9,15 @@ import CSharp from './assets/empployee_C.png'
 import './index.css'
 import ProjectsCard from "./Components/ProjectsCard"
 
-import { FaDocker, FaGithub, FaJava, FaPython } from "react-icons/fa"
+import { FaGithub, FaJava, FaPython } from "react-icons/fa"
 import { PiFileCSharp } from "react-icons/pi"
-import { SiDjango, SiFastapi, SiHibernate, SiPostgresql, SiPython, SiSqlalchemy, SiSqlite } from "react-icons/si"
+import { SiDjango, SiFastapi, SiHibernate, SiPostgresql, SiSqlalchemy, SiSqlite } from "react-icons/si"
 import { AiOutlineDotNet } from "react-icons/ai"
-import { DiSqllite } from "react-icons/di"
 import { BiLogoSpringBoot } from "react-icons/bi"
 import { TbSql } from "react-icons/tb"
 import { LiaGithub, LiaLinkedin } from "react-icons/lia"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { CgClose } from "react-icons/cg"
 
 
 function App() {
@@ -26,59 +26,89 @@ function App() {
     window.history.replaceState(null, "", window.location.pathname);
   };
   const [bgColor, setBgColor] = useState("bg-transparent");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const menuRef = useRef(null);
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      setBgColor("bg-black shadow-lg");
+    } else {
+      setBgColor("bg-transparent");
+    }
+  };
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setBgColor("bg-black shadow-lg"); 
-      } else {
-        setBgColor("bg-transparent");
-      }
-    };
-
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
   return (
 
     <div className="w-full h-auto bg-black flex flex-col items-center">
       <div className={`fixed w-full h-16 flex flex-row items justify-center z-[9999] items-center  top-0 p-2 ${bgColor} duration-300`}>
-        <div className="w-[calc(100%-8rem)] flex flex-row justify-between items-center text-white">
-          <h1 className="text-2xl">Keven Santos</h1>
-          <div className="w-[40%] flex justify-between flex-row items-center">
+        <div className="w-[calc(100%-4rem)] flex flex-row justify-between items-center text-white">
+          <h1 className="text-2xl text-green-700 font-grotesk">Keven Santos</h1>
+          <nav
+            className="hidden md:flex w-[45%] justify-between flex-row items-center"
+          >
             <Button text={"About me"} goToSection={goToSection} specificPart={"about-me"} />
             <Button text={"Projects"} goToSection={goToSection} specificPart={"projects"} />
             <Button text={"Technical Skills"} goToSection={goToSection} specificPart={"technical-skills"} />
             <Button text={"Contact"} goToSection={goToSection} specificPart={"contacts"} />
+          </nav>
+          <div className="md:hidden text-2xl cursor-pointer" onClick={toggleMenu}>
+            ☰
+          </div>
+        </div>
+
+        <div ref={menuRef} className={`fixed  inset-0 h-full bg-black bg-opacity-50 md:hidden ${isMenuOpen ? 'block' : 'hidden'}`} id="sideMenu">
+          <div className="bg-black text-white w-64 h-full duration-300 absolute right-0 p-4">
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="text-white absolute text-2xl mb-4 left-[13rem]"
+            >
+              <CgClose />
+            </button>
+            <ul className="mt-10">
+              <li><a href="#about-me" className="block py-2">About me</a></li>
+              <li><a href="#technical-skills" className="block py-2">Technical Skills</a></li>
+              <li><a href="#projects" className="block py-2">Projects</a></li>
+              <li><a href="#contacts" className="block py-2">Contact</a></li>
+            </ul>
           </div>
         </div>
       </div>
-      <div id="about-me" className="w-[89%] flex mt-28 items-center h-[70%] ">
+      <div id="about-me" className="w-full flex flex-col md:flex-row mt-28 items-center justify-center h-auto md:h-[70%]">
 
-        <div className="w-[29%]">
-          <div className="relative overflow-hidden z-20 w-full h-full clip-mask">
-            <img
-              src=
-              {kevenPhoto}
-              alt="Styled"
-              className="w-full h-auto object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-l from-black via-transparent to-transparent opacity-90"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-90"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-85"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-85"></div>
-          </div>
-
+        <div className="w-[60%] md:w-[29%] relative overflow-hidden z-20">
+          <img
+            src={kevenPhoto}
+            alt="Styled"
+            className="w-full h-auto object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-black via-transparent to-transparent opacity-90"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent opacity-90"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-85"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-transparent opacity-85"></div>
         </div>
-        <div className="text-white flex flex-col justify-center h-[89%] ml-[7rem] font-sans">
-          <h1 className="text-3xl ">Hi,</h1>
-          <ReactTyped className="text-3xl font-bold text-green-700  " strings={['I am Keven Santos']} typeSpeed={120} backSpeed={200} loop />
-          <h1 className="text-3xl ">Backend Developer</h1>
-          <p>I have a degree in technical systems development from SENAI.</p>
-          <p> I'm in the 3rd semester of the computer science degree course at Unimetrocamp Wyden.</p>
 
+        <div className="text-white flex flex-col justify-center h-auto md:h-[89%] md:ml-[7rem] font-sans p-7">
+          <h1 className="text-2xl">Hi,</h1>
+          <ReactTyped className="text-2xl font-bold text-green-700" strings={['I am Keven Santos']} typeSpeed={120} backSpeed={200} loop />
+          <h1 className="text-2xl">Backend Developer</h1>
+          <p className="mt-3">I have a degree in technical systems development from SENAI.</p>
+          <p >I'm in the 3rd semester of the computer science degree course at Unimetrocamp Wyden.</p>
         </div>
+
+
       </div>
+
       <div id="projects" className="w-full flex gap-3 items-center justify-center flex-col mt-10">
         <h2 className="text-2xl ">Projects</h2>
         <div className="w-full flex flex-col gap-4 p-9">
@@ -123,63 +153,56 @@ function App() {
 
         </div>
       </div>
-      <div id="technical-skills" className="w-full flex gap-3 items-center justify-center flex-col mt-10">
-        <h2 className="text-2xl ">Technical Skills</h2>
-        <div className="w-[80%] flex flex-row justify-center gap-10 place-items-center mt-4 mb-10">
-          <div className="h-32 flex flex-col justify-around items-center ">
-            <div className="w-full flex flex-row justify-center items-center">
 
+      <div id="technical-skills" className="w-full flex flex-col items-center justify-center mt-10">
+        <h2 className="text-2xl">Technical Skills</h2>
+        <div className="sm:w-[90%] flex flex-wrap justify-center gap-1 mt-4 mb-6 ">
+          <div className=" w-full h-32 flex flex-col justify-around items-center sm:w-1/3 md:w-1/4">
+            <div className="w-full flex flex-row justify-center items-center gap-4">
               <PiFileCSharp size={40} />
               <FaJava size={40} />
               <FaPython size={40} />
-
             </div>
             <h2 className="bg-green-950 p-2 rounded-2xl">Programming Languages</h2>
           </div>
 
-          <div className=" h-32 flex flex-col justify-around items-center ">
-            <div className="w-full flex flex-row justify-center items-center">
-
+          <div className=" h-32 flex flex-col justify-around items-center sm:w-1/3 md:w-1/4">
+            <div className="w-full flex flex-row justify-center items-center gap-4">
               <AiOutlineDotNet size={40} />
               <SiDjango size={40} />
               <SiFastapi size={40} />
               <BiLogoSpringBoot size={40} />
-
             </div>
-            <h2 className="bg-green-950 p-2 rounded-2xl">Frameworks</h2>
+            <h2 className="bg-green-950 p-2  w-40 text-center rounded-2xl">Frameworks</h2>
           </div>
 
-
-          <div className=" h-32 flex flex-col justify-around items-center ">
-            <div className="w-full flex flex-row justify-center items-center">
-
+          <div className=" h-32 flex relative flex-col justify-around items-center sm:w-1/3 md:w-1/4">
+            <div className="w-full flex flex-row justify-center items-center gap-4">
               <SiSqlite size={40} />
               <TbSql size={40} />
               <SiPostgresql size={40} />
-
             </div>
-            <h2 className="bg-green-950 p-2 rounded-2xl">Databases</h2>
+            <h2 className="bg-green-950 p-2 w-36 text-center rounded-2xl">Databases</h2>
           </div>
 
-          <div className="h-32 flex flex-col justify-around items-center ">
-            <div className="w-full flex flex-row justify-center items-center gap-2">
-
+          <div className=" h-32 flex flex-col justify-around items-center sm:w-1/3 md:w-1/4">
+            <div className="w-full flex flex-row justify-center items-center gap-4">
               <SiSqlalchemy size={40} />
               <SiHibernate size={40} />
-
             </div>
-            <h2 className="bg-green-950 p-2 rounded-2xl">ORM</h2>
+            <h2 className="bg-green-950 p-2 w-36 text-center rounded-2xl">ORM</h2>
           </div>
 
-          <div className=" h-32 flex flex-col justify-around items-center ">
-            <div className="w-full flex flex-row justify-center items-center gap-2">
+          <div className=" h-32 flex flex-col justify-around items-center sm:w-1/3 md:w-1/4">
+            <div className="w-full flex flex-row justify-center items-center gap-4">
               <FaGithub size={40} />
             </div>
             <h2 className="bg-green-950 p-2 rounded-2xl">Version Control</h2>
           </div>
         </div>
-
       </div>
+
+
       <div id="contacts" className="w-full flex gap-3 items-center justify-center flex-col mt-10  h-44">
         <h2 className="text-2xl ">Contacts</h2>
         <div className="w-full flex flex-row justify-center items-center gap-2">
