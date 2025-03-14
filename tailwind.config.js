@@ -12,6 +12,8 @@ export default {
         poppins: ["Poppins", "sans-serif"],
         inter: ["Inter", "sans-serif"],
         grotesk: ["Space Grotesk", "sans-serif"],
+        oswald: ['Oswald', 'sans-serif'],
+        work: ['Work Sans', 'sans-serif']
       },
     },
   },
