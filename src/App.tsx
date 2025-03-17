@@ -101,9 +101,9 @@ function App() {
 
         <div className="text-white flex flex-col justify-center h-[28.5rem] font-work p-7 md:relative z-20 right-16">
           <div className="w-full flex flex-row gap-2">
-            <h1 className="md:text-[48px] text-[32px]">Hi,</h1>
+            <h1 className="md:text-[48px] text-[25px]">Hi,</h1>
             <ReactTyped
-              className="md:text-[48px] text-[32px] font-bold text-[#00df9a]"
+              className="md:text-[48px] text-[25px] font-bold text-[#00df9a]"
               strings={['I am Keven Santos']}
               typeSpeed={120}
               backSpeed={200}
